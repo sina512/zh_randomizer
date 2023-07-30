@@ -47,19 +47,19 @@ async def generate(ctx, *, arg):
 
 
     # creating the teams
-	team1 = team("Makke",len(makke))
-	team2 = team("Madineh",len(madineh))
-    
-	for member in makkeh:
-  		team1.add_player(member)
-	for member in madineh:
-  		team2.add_player(member)
+    team1 = team("Makke",len(makke))
+    team2 = team("Madineh",len(madineh))
+
+    for member in makkeh:
+	team1.add_player(member)
+    for member in madineh:
+	team2.add_player(member)
 	
     team1.calculate_rates(team2)
-	text = [team1.print()]
-	text.append(team2.print())
-	text.append(team1.report())
-	text.append(team2.report())
+    text = [team1.print()]
+    text.append(team2.print())
+    text.append(team1.report())
+    text.append(team2.report())
 
 
     text_pretty = "**{}** {} ```{}```".format(ctx.current_argument, ctx.author.mention, "\n".join(text)
