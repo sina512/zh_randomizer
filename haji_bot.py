@@ -28,14 +28,14 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, "credentials.env"))
 load_dotenv(find_dotenv())
 
-DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='haj!', intents=intents)
+bot = commands.Bot(command_prefix='/', intents=intents)
 
-@bot.hybrid_command(name="haji_bot", help= "The command to generate--> haj! \"name1 name2 vs name3 name4 \" ")
+@bot.hybrid_command(name="haji", help= "The command to generate--> haj! \"name1 name2 vs name3 name4 \" ")
 async def generate(ctx, *, arg):
 	try:
 		makke, madineh = split_teams(arg)
@@ -49,7 +49,7 @@ async def generate(ctx, *, arg):
 	team1 = team("Makke",len(makke))
 	team2 = team("Madineh",len(madineh))
 
-	for member in makkeh:
+	for member in makke:
 		team1.add_player(member)
 	for member in madineh:
 		team2.add_player(member)
@@ -67,4 +67,3 @@ async def generate(ctx, *, arg):
 	return await ctx.reply(text_pretty)
 
 bot.run(DISCORD_TOKEN)
-
