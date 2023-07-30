@@ -178,44 +178,44 @@ AIR FORCE vs SUPER WEAPON 95
 match_up = pd.DataFrame(columns=armies,index=armies)
 
 for army1 in match_up.columns.values:
-  for army2 in match_up.index.values:
-    pattern = re.compile('{} vs {} {}'.format(army1,army2,'[0-9]{1,2}'))
-    result = re.findall(pattern, matchup_str)
-    #print(army1+" "+army2)
-    #print(result)
-    if len(result) > 0:
-      percentage = int(re.findall('[0-9]?[0-9]',result[0])[0])
-      match_up.loc[army1,army2] = percentage
-    else:
-      print("missing matchup")  
+    for army2 in match_up.index.values:
+        pattern = re.compile('{} vs {} {}'.format(army1,army2,'[0-9]{1,2}'))
+        result = re.findall(pattern, matchup_str)
+        #print(army1+" "+army2)
+        #print(result)
+        if len(result) > 0:
+            percentage = int(re.findall('[0-9]?[0-9]',result[0])[0])
+            match_up.loc[army1,army2] = percentage
+        else:
+            print("missing matchup")  
 
 
 
 class team:
-  def __init__(self, name,n):
-    self.name = name
-    self.n = n
-    self.players = []
-    self.armies = []
-    self.rates = []
-    self.chance = 0
-    self.single_rates = {}
+    def __init__(self, name,n):
+        self.name = name
+        self.n = n
+        self.players = []
+        self.armies = []
+        self.rates = []
+        self.chance = 0
+        self.single_rates = {}
 
-  def add_player(self,player):
-    self.players.append(player)
-    self.armies.append(random.choices(armies,k=1)[0])
+    def add_player(self,player):
+        self.players.append(player)
+        self.armies.append(random.choices(armies,k=1)[0])
 
-  def calculate_rates(self, other):
-    for army1 in self.armies:
-      rate=0
-      for army2 in other.armies:
-        self.rates.append(match_up.loc[army1, army2])
-        other.rates.append(match_up.loc[army2, army1])
-        self.single_rates[army1 + " vs " + army2] = match_up.loc[army1, army2]
-        other.single_rates[army2 + " vs " + army1] = match_up.loc[army2, army1]
+    def calculate_rates(self, other):
+        for army1 in self.armies:
+            rate=0
+            for army2 in other.armies:
+                self.rates.append(match_up.loc[army1, army2])
+                other.rates.append(match_up.loc[army2, army1])
+                self.single_rates[army1 + " vs " + army2] = match_up.loc[army1, army2]
+                other.single_rates[army2 + " vs " + army1] = match_up.loc[army2, army1]
 
-    self.chance = np.average(self.rates)
-    other.chance = np.average(other.rates)
+        self.chance = np.average(self.rates)
+        other.chance = np.average(other.rates)
 
 
     def print(self):
@@ -224,7 +224,7 @@ class team:
         result.append("        TEAM " + self.name)
         for player, army in zip(self.players , self.armies):
             result.append(player + (" "*(10-len(player))) + "----->   " + army)
-        result.append("*" * 25)
+            result.append("*" * 25)
         return "\n".join(result)
 
     def report(self):
@@ -236,7 +236,3 @@ class team:
             result.append("{} ---> {} % ".format(key, value))
             result.append("-" * 25)
         return "\n".join(result)
-
-    
-
-
