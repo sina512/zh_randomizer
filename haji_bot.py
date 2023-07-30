@@ -61,7 +61,7 @@ async def generate(ctx, *, arg):
 	text.append(team2.report())
 
 
-	text_pretty = "**{}** {} ```{}```".format(ctx.current_argument, ctx.author.mention, "\n".join(text)
+	text_pretty = "**{}** {} ```{}```".format(ctx.current_argument, ctx.author.mention, "\n".join(text))
 	logging.info(text_pretty)
     
 	return await ctx.reply(text_pretty)
