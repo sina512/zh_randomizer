@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import logging
 from zh import team
+import asyncio
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -44,7 +45,6 @@ async def generate(ctx, *, arg):
 		logging.WARNING("wrong command format")
 		print(e)
 
-
 	# creating the teams
 	team1 = team("Makke",len(makke))
 	team2 = team("Madineh",len(madineh))
@@ -57,13 +57,19 @@ async def generate(ctx, *, arg):
 	team1.calculate_rates(team2)
 	text = [team1.print()]
 	text.append(team2.print())
-	text.append(team1.report())
-	text.append(team2.report())
+	text2=[team1.report()]
+	text2.append(team2.report())
 
-
-	text_pretty = "**{}** {} ```{}```".format(ctx.current_argument, ctx.author.mention, "\n".join(text))
+	text_pretty = "**{}** {}".format(ctx.current_argument, ctx.author.mention)
+	await ctx.reply(text_pretty)
 	logging.info(text_pretty)
-    
-	return await ctx.reply(text_pretty)
+	for line in "\n".join(text):
+		text_pretty = ```{}```".format(line)
+		await ctx.reply(text_pretty)
+		await asyncio.sleep(0.8)  # delay for 1 second
+	for line in "\n".join(text2):
+		text_pretty = ```{}```".format(line)
+		await ctx.reply(text_pretty)
+		await asyncio.sleep(0.4)  # delay for 1 second
 
 bot.run(DISCORD_TOKEN)
