@@ -36,9 +36,7 @@ jobs:
           docker container rm -f discord-bot || echo "Warning: Failed to remove discord-bot container"
           docker image rm -f discord-bot || echo "Warning: Failed to remove discord-bot image"
           docker build -t discord-bot -f Dockerfile .
-          docker run    -d \
-                        -p 8080:8080 \
-                        -e "BEARER_TOKEN=${{ secrets.DISCORD_TOKEN }}" \
+          docker run    -d -e "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" \
                         --name discord-bot \
                         discord-bot\
         EOF

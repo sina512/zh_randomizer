@@ -41,9 +41,10 @@ async def generate(ctx, *, arg):
 	try:
 		makke, madineh = split_teams(arg)
 	except ValueError as e:
-		return await ctx.send("The input string is not formatted properly! \n the command to generate--> \n haj! **<name1>**; **<name2>**; **<vs>**; **<name3>;...**")
 		logging.WARNING("wrong command format")
 		print(e)
+		return await ctx.send("The input string is not formatted properly! \n the command to generate--> \n haj! **<name1>**; **<name2>**; **<vs>**; **<name3>;...**")
+
 
 	# creating the teams
 	team1 = team("Makke",len(makke))
