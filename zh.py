@@ -220,19 +220,19 @@ class team:
 
     def print(self):
         result = []
-        result.append("*" * 25)
+        # result.append("*" * 25)
         result.append("        TEAM " + self.name)
         for player, army in zip(self.players , self.armies):
             result.append(player + (" "*(10-len(player))) + "----->   " + army)
-            result.append("*" * 25)
+            # result.append("*" * 25)
         return "\n".join(result)
 
     def report(self):
         result = []
-        result.append("^" * 25)
+        # result.append("^" * 25)
         result.append("     " + self.name + "  winnig chance --->  " + str(round(self.chance)) + " %")
-        result.append("^" * 25)
+        # result.append("^" * 25)
         for key, value in self.single_rates.items():
             result.append("{} ---> {} % ".format(key, value))
-            result.append("-" * 25)
+            # result.append("-" * 25)
         return "\n".join(result)

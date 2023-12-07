@@ -56,21 +56,29 @@ async def generate(ctx, *, arg):
 		team2.add_player(member)
 	
 	team1.calculate_rates(team2)
-	text = [team1.print()]
-	text.append(team2.print())
-	text2=[team1.report()]
-	text2.append(team2.report())
+	text = team1.print()
+	text = text+"\n" + team2.print()
+	text2=team1.report()
+	text2= "\n" +team2.report()
 
 	text_pretty = "**{}** {}".format(ctx.current_argument, ctx.author.mention)
 	await ctx.reply(text_pretty)
 	logging.info(text_pretty)
-	for line in "\n".join(text):
+	print(text)
+	print(text2)
+	for line in text.split("\n"):
 		text_pretty = "```{}```".format(line)
-		await ctx.reply(text_pretty)
-		await asyncio.sleep(0.8)  # delay for 1 second
-	for line in "\n".join(text2):
-		text_pretty = "```{}```".format(line)
-		await ctx.reply(text_pretty)
+		await ctx.send(text_pretty)
 		await asyncio.sleep(0.4)  # delay for 1 second
+
+	text_pretty = "```{}```".format("              Stats")
+	await ctx.send(text_pretty)
+	await asyncio.sleep(0.1)  # delay for 1 second
+	text_pretty = "```{}```".format(team1.report())
+	await ctx.send(text_pretty)
+	await asyncio.sleep(0.2)  # delay for 1 second
+	text_pretty = "```{}```".format(team2.report())
+	await ctx.send(text_pretty)
+	await asyncio.sleep(0.2)  # delay for 1 second
 
 bot.run(DISCORD_TOKEN)
