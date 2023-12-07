@@ -30,13 +30,13 @@ load_dotenv(dotenv_path=os.path.join(BASE_DIR, "credentials.env"))
 load_dotenv(find_dotenv())
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-
+print(DISCORD_TOKEN)
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='/', intents=intents)
+bot = commands.Bot(command_prefix='#', intents=intents)
 
-@bot.hybrid_command(name="haji", help= "The command to generate--> haj! \"name1 name2 vs name3 name4 \" ")
+@bot.hybrid_command(name="razm", help= "The command to generate--> #razm \"name1 name2 vs name3 name4 \" ")
 async def generate(ctx, *, arg):
 	try:
 		makke, madineh = split_teams(arg)
