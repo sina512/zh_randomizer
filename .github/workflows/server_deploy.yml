@@ -1,0 +1,44 @@
+name: Deploy Upsert Servers
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        # Adding known hosts for all servers
+        echo "Adding known hosts..."
+        for ip in ${{ secrets.SERVER_IP }} 
+        do
+          ssh-keyscan $ip >> ~/.ssh/known_hosts
+        done
+
+    - name: Deploy Discord Bot
+      if: github.ref == 'refs/heads/main'
+      run: |
+        ssh -i ~/.ssh/id_ed25519 root@${{ secrets.SERVER_IP }} << 'EOF'
+          set -e
+          cd /app/zh_randomizer 
+          git pull
+          
+          docker stop discord-bot || echo "Warning: Failed to stop discord-bot"
+          docker container rm -f discord-bot || echo "Warning: Failed to remove discord-bot container"
+          docker image rm -f discord-bot || echo "Warning: Failed to remove discord-bot image"
+          docker build -t discord-bot -f Dockerfile .
+          docker run    -d \
+                        -p 8080:8080 \
+                        -e "BEARER_TOKEN=${{ secrets.DISCORD_TOKEN }}" \
+                        --name discord-bot \
+                        discord-bot\
+        EOF
