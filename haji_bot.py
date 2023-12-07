@@ -64,11 +64,11 @@ async def generate(ctx, *, arg):
 	await ctx.reply(text_pretty)
 	logging.info(text_pretty)
 	for line in "\n".join(text):
-		text_pretty = ```{}```".format(line)
+		text_pretty = "```{}```".format(line)
 		await ctx.reply(text_pretty)
 		await asyncio.sleep(0.8)  # delay for 1 second
 	for line in "\n".join(text2):
-		text_pretty = ```{}```".format(line)
+		text_pretty = "```{}```".format(line)
 		await ctx.reply(text_pretty)
 		await asyncio.sleep(0.4)  # delay for 1 second
 
